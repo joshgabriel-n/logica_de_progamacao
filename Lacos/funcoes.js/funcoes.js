@@ -16,4 +16,4 @@ function adicionarItem(lista) {
 }
 let itens=["Item 1" ,"Item 2"];
 adicionarItem(itens);
-console.log(itens);//["Item 1","Item 2", "Novo item"]
+console.log(itens);//["Item 1","Item 2", "Novo item"]..
