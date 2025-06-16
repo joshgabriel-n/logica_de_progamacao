@@ -2,7 +2,7 @@ var dia = "quarta";
 switch (dia){
   case "segunda":
   console.log("Dia de começar a semana");
-  break
+  break;
 
  case "terça":
   console.log("Hora de aprender");
