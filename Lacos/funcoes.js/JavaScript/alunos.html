@@ -18,10 +18,10 @@
             display: block;
             margin: 8px 0;
         }
-        butoon {
+        button {
             margin-top: 10px;
             padding: 8px 16px;
-            background-color:rgba(209, 224, 6, 0.897);
+            background-color:rgba(17, 17, 16, 0.897);
             color:rgb(17, 219, 10);
             border:none;
             cursor: pointer;
@@ -46,7 +46,9 @@
     <label>Curso:</label>
     <input type="text" id="curso" />
     
-    <Button>Cadastrar Aluno</Button>
+    
+    <button onclick="CadastrarAluno()">
+        Cadastrar Aluno</button>
 
     <h2>Alunos Cadastrados:</h2>
     <ul 
@@ -54,29 +56,50 @@
     >
     </ul>
     
-    <Script>
+    <script>
         const alunos = [];
         
-        function CadastrarAluno(){
+        function CadastrarAluno() {
             const nome = document.getElementById("nome").value;
             const idade = document.getElementById("idade").value;
             const curso = document.getElementById("curso").value;
+
+            if (nome && idade && curso) {
+                const aluno = {
+                    nome,
+                    idade,
+                    curso
+                };
+                alunos.push(aluno);
+                ExibirAlunos();
+                LimparCampos();
+            } else {
+                alert("Por favor, preencha todos os campos.");
+            }
         }
 
-            if (nome && idade && curso)
-            {
-
-            const aluno ={
-                nome,
-                idade,
-                curso
-            }; 
-                
-            };
-            alunos.push(aluno);
+        function ExibirAlunos() {
+            const lista = document.getElementById("lista-alunos");
+            lista.innerHTML = "";
+            for (let i = 0; i < alunos.length; i++) {
             
+                const aluno = alunos[i];
+                const li = document.createElement("li");
+                li.textContent = `Aluno${i+1}: 
+                Nome: ${aluno.nome}, Idade: ${aluno.idade}, Curso: ${aluno.curso}`;
+                lista.appendChild(li);
+            }
+        }
+        function LimparCampos() {
+            document.getElementById("nome").value = "";
+            document.getElementById("idade").value = "";
+            document.getElementById("curso").value = "";
+        }
 
-    </Script>
+       
+    </script>
+       
+
      
 
 
