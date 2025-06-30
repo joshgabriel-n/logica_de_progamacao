@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Acesso Seguro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .input-error {
+            border-color: #6d1b1b;
+        }
+        
+        .error-message {
+            display: none;
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .login-container {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .success-message {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container bg-white rounded-xl p-8 w-full max-w-md mx-4">
+        <div class="text-center mb-8">
+            <img src="https://placehold.co/80x80" alt="Ícone de segurança - um escudo com um cadeado no centro em azul" class="mx-auto mb-4 rounded-full bg-blue-100 p-2">
+            <h1 class="text-2xl font-bold text-gray-800">Verificação de Acesso</h1>
+            <p class="text-gray-500 mt-2">Insira suas credenciais para continuar</p>
+        </div>
+        
+        <form id="accessForm" class="space-y-4">
+            <div>
+                <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Nome de Usuário</label>
+                <input type="text" id="username" name="username" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                       placeholder="ex: joao.silva">
+                <div id="username-error" class="error-message">Por favor, insira um nome de usuário válido</div>
+            </div>
+            
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+                <input type="password" id="password" name="password" 
+                       class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
+                       placeholder="••••••••">
+                <div id="password-error" class="error-message">A senha deve ter pelo menos 8 caracteres</div>
+            </div>
+            
+            <div class="flex items-center">
+                <input type="checkbox" id="remember" name="remember"
+                       class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                <label for="remember" class="ml-2 block text-sm text-gray-700">Lembrar de mim</label>
+            </div>
+            
+            <button type="submit" 
+                    class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                Acessar Sistema
+            </button>
+        </form>
+        
+        <div class="mt-4 text-center text-sm text-gray-500">
+            <a href="#" class="font-medium text-blue-600 hover:text-blue-500">Esqueceu sua senha?</a>
+        </div>
+    </div>
+    
+    <div id="successMessage" class="hidden login-container text-center p-8 w-full max-w-md mx-4 rounded-xl success-message">
+        <img src="https://placehold.co/100x100" alt="Ícone de sucesso - um círculo verde com marca de verificação branca" class="mx-auto mb-4">
+        <h2 class="text-2xl font-bold mb-2">Acesso Permitido!</h2>
+        <p class="mb-6">Você será redirecionado automaticamente em breve.</p>
+        <div class="w-full bg-white bg-opacity-20 h-2 rounded-full overflow-hidden">
+            <div id="progressBar" class="bg-white h-full rounded-full"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('accessForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username');
+            const password = document.getElementById('password');
+            const usernameError = document.getElementById('username-error');
+            const passwordError = document.getElementById('password-error');
+            
+            let isValid = true;
+            
+            // Reset errors
+            username.classList.remove('input-error');
+            password.classList.remove('input-error');
+            usernameError.style.display = 'none';
+            passwordError.style.display = 'none';
+            
+            // Validate username
+            if (!username.value || username.value.length < 3) {
+                isValid = false;
+                username.classList.add('input-error');
+                usernameError.style.display = 'block';
+            }
+            
+            // Validate password
+            if (!password.value || password.value.length < 8) {
+                isValid = false;
+                password.classList.add('input-error');
+                passwordError.style.display = 'block';
+            }
+            
+            if (isValid) {
+                // Show success message
+                document.getElementById('accessForm').style.display = 'none';
+                document.getElementById('successMessage').classList.remove('hidden');
+                
+                // Animate progress bar for 3 seconds
+                const progressBar = document.getElementById('progressBar');
+                const duration = 3000; // 3 seconds
+                const startTime = Date.now();
+                
+                const animate = () => {
+                    const elapsed = Date.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    progressBar.style.width = `${progress * 100}%`;
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        // Redirect would happen here
+                        console.log('Redirecionando para o sistema...');
+                        alert('Login bem-sucedido para: ' + username.value);
+                        // window.location.href = '/dashboard';
+                    }
+                };
+                
+                animate();
+            }
+        });
+    </script>
+</body>
+</html>
+
