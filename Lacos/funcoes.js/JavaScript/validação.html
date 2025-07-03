@@ -52,16 +52,16 @@
             
             if (nome && idade >= 18) {
                 mensagem.textContent = `Acesso Permitido, ${nome}`;
-                mensagem.style.color = 'green';
+                mensagem.style.color = 'blue';
 
             } else if (nome && idade < 18)
              {
                 mensagem.textContent = `Acesso negado por idade.`;
-                mensagem.style.color = 'red';
+                mensagem.style.color = 'violet';
             }
             else if (!nome  || isNaN(idade)) {
                 mensagem.textContent =`Preencha corretamente os campos.`;
-                mensagem.style.color = 'red';
+                mensagem.style.color = 'yellow';
             }
 
         }
